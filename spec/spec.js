@@ -5,6 +5,7 @@ const  {
   merge,
   filter,
   remove,
+  removeIn,
   set,
   unsetIn,
   setIn,
@@ -99,6 +100,13 @@ describe('Array functions', () => {
     expect(next).toBe(state.skills)
   })
 
+  it('Should remove existing items in nested object', () => {
+    const next = removeIn(state, ['interests', 'games'], 'monopoly')
+    expect(next.interests.games.indexOf('monopoly')).toBe(-1)
+    expect(next.interests.games.length).toBe(state.interests.games.length - 1)
+    expect(next === state).toBeFalsy()
+  })
+
   it('Should filter items', () => {
     const next = filter(state.skills, skill => skill !== 'html')
     expect(next.indexOf('html')).toBe(-1)
@@ -115,6 +123,13 @@ describe('Array functions', () => {
     const next = filter(state.skills, skill => skill === 'painting')
     expect(next.length).toBe(0)
     expect(next === state.interests).toBeFalsy()
+  })
+
+  it('Should filter items in nested objects aswell', () => {
+    const next = filterIn(state, ['skills'], skill => skill !== 'html')
+    expect(next.skills.indexOf('html')).toBe(-1)
+    expect(next.skills.length).toBe(state.skills.length - 1)
+    expect(next === state).toBeFalsy()
   })
 
 })

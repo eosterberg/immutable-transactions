@@ -1,4 +1,4 @@
-import { setArr, unsetArr, filter, filterIn, remove } from "./src/arrayFunctions"
+import { setArr, unsetArr, filter, filterIn, remove, removeIn } from "./src/arrayFunctions"
 import { setObj, unsetObj, merge, mergeIn } from "./src/objectFunctions"
 import { set, unset, setIn, unsetIn } from './src/genericFunctions'
 
@@ -15,5 +15,6 @@ export {
   setObj,
   unsetObj,
   merge,
-  remove
+  remove,
+  removeIn,
 }

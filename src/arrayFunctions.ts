@@ -27,6 +27,15 @@ export const remove = (arr, value) => {
   return dropIndex(arr, index)
 }
 
+export const removeIn = (obj, keys, value) => {
+  return operationIn(
+    obj,
+    keys,
+    (obj, key, value) => set(obj, key, remove(obj[key], value)),
+    value
+  )
+}
+
 export const filter = (arr, predicate) => {
   var differIndex = arr.findIndex((item, index) => !predicate(item, index))
   if (differIndex === -1) { return arr }
