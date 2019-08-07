@@ -32,41 +32,92 @@ const state = {
   }
 }
 
-const filterInRes = filterIn(state, ['interests', 'games'], (game) => game !== 'monopoly')
-// console.log(filterInRes, filterInRes === state);
+describe('Generic functions', () => {
 
-const res2222 = setIn(state, ['interests', 'music'], 42)
-// console.log(res2222, res2222 === state);
+  it('Should bypass when set:ing exsiting value', () => {
+    const next = set(state, 'name', 'Name')
+    expect(next === state)
+  })
 
-const res22222 = setIn(state, ['interests', 'games', -1], 'juggling')
-// console.log(res22222, res22222 === state);
+  it('Should be able to set a nested object property', () => {
+    const next = setIn(state, ['interests', 'music'], 42)
+    expect(next.interests.music).toBe(42)
+    expect(next === state).toBeFalsy()
+  })
 
-const unsetInRes = unsetIn(state, ['interests', 'games'], 0)
-// console.log(unsetInRes, unsetInRes === state);
+  it('Should return original object if nested object property was set to previous value', () => {
+    const next = setIn(state, ['interests', 'music'], 9)
+    expect(next.interests.music).toBe(9)
+    expect(next === state).toBeTruthy()
+  })
 
-const unsetInRes2 = unsetIn(state, ['interests', 'eating'], 'eggs')
-// console.log(unsetInRes2, unsetInRes2 === state);
+  it('setIn should support array indexes', () => {
+    const next = setIn(state, ['interests', 'games', 0], 'juggling')
+    expect(next.interests.games[0]).toBe('juggling')
+    expect(next === state).toBeFalsy()
+  })
 
-const res1 = set(state, 'name', 'Name')
-// console.log(state === res1);
+  it('setIn should support negative array indexes', () => {
+    const next = setIn(state, ['interests', 'games', -1], 'juggling')
+    expect(next.interests.games[1]).toBe('juggling')
+    expect(next === state).toBeFalsy()
+  })
 
-const res2 = remove(state.skills, 'html')
-// console.log(res2);
+  it('Should should support dropping array indexes', () => {
+    const next = unsetIn(state, ['interests', 'games'], 0)
+    expect(next.interests.games.indexOf('monopoly')).toBe(-1)
+    expect(next.interests.games.length).toBe(state.interests.games.length - 1)
+    expect(next === state).toBeFalsy()
+  })
 
-const res22 = remove(state.skills, 'js')
-// console.log(res22);
+  it('Should unset object props in nested state', () => {
+    const next = unsetIn(state, ['interests', 'eating'], 'eggs')
+    expect(next.interests.eating.eggs).toBeUndefined()
+    expect(next === state).toBeFalsy()
+  })
 
-const res222 = remove(state.skills, 'painting')
-// console.log(res222, res222 === state.skills);
+})
 
-const res3 = filter(state.skills, skill => skill !== 'painting')
-// console.log(res3, res3 === state.skills);
+describe('Array functions', () => {
 
-const res4 = filter(state.skills, skill => skill !== 'html')
-// console.log(res4, res4 === state.skills);
+  it('Should remove existing item', () => {
+    const next = remove(state.skills, 'html')
+    expect(next.indexOf('html')).toBe(-1)
+    expect(next.length).toBe(state.skills.length - 1)
+    expect(next === state.skills).toBeFalsy()
+  })
 
-const res5 = filter(state.skills, skill => skill === 'painting')
-// console.log(res5, res5 === state.skills);
+  it('Should remove first item in list', () => {
+    const next = remove(state.skills, 'js')
+    expect(next.indexOf('js')).toBe(-1)
+    expect(next.length).toBe(state.skills.length - 1)
+    expect(next === state.skills).toBeFalsy()
+  })
+
+  it('Should bypass if trying to remove a non-existent value', () => {
+    const next = remove(state.skills, 'painting')
+    expect(next).toBe(state.skills)
+  })
+
+  it('Should filter items', () => {
+    const next = filter(state.skills, skill => skill !== 'html')
+    expect(next.indexOf('html')).toBe(-1)
+    expect(next.length).toBe(state.skills.length - 1)
+    expect(next === state.skills).toBeFalsy()
+  })
+
+  it('Should return original list if filter yields same items', () => {
+    const next = filter(state.skills, skill => skill !== 'painting')
+    expect(next === state.skills).toBeTruthy()
+  })
+
+  it('Filter might render empty array', () => {
+    const next = filter(state.skills, skill => skill === 'painting')
+    expect(next.length).toBe(0)
+    expect(next === state.interests).toBeFalsy()
+  })
+
+})
 
 describe("object functions", () => {
 
@@ -104,5 +155,4 @@ describe("object functions", () => {
     expect(next === state.interests.eating).toBeFalsy()
   })
 
-  
 })
