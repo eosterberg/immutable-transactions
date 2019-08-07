@@ -1,33 +1,34 @@
+import { AnyState, AnyArray, KeyPath } from './types'
 import { operationIn, set } from './genericFunctions'
 
-const normalizeIndex = (arr, index) => {
+const normalizeIndex = (arr: AnyArray, index: number) => {
   while (index < 0) index = arr.length + index
 
   return index
 }
 
-const dropIndex = (arr, index) => arr.slice(0, index).concat(arr.slice(index + 1))
+const dropIndex = (arr: AnyArray, index: number) => arr.slice(0, index).concat(arr.slice(index + 1))
 
-export const setArr = (arr, index, value) => {
+export const setArr = (arr: AnyArray, index: number, value: any) => {
   index = normalizeIndex(arr, index)
 
   if (arr[index] === value) return arr
 
-  const next = [].concat(arr) as any[]
+  const next = ([] as AnyArray).concat(arr)
   next[index] = value
   return next
 }
 
-export const unsetArr = (arr, index) => dropIndex(arr, normalizeIndex(arr, index))
+export const unsetArr = (arr: AnyArray, index: number) => dropIndex(arr, normalizeIndex(arr, index))
 
-export const remove = (arr, value) => {
+export const remove = (arr: AnyArray, value: any) => {
   const index = arr.indexOf(value)
   if (index === -1) { return arr }
 
   return dropIndex(arr, index)
 }
 
-export const removeIn = (obj, keys, value) => {
+export const removeIn = (obj: AnyState, keys: string[], value) => {
   return operationIn(
     obj,
     keys,
@@ -49,7 +50,7 @@ export const filter = (arr, predicate) => {
   return next
 }
 
-export const filterIn = (obj, keys, predicate) => {
+export const filterIn = (obj, keys: string[], predicate) => {
   return operationIn(
     obj,
     keys,

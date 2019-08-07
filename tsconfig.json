@@ -5,7 +5,8 @@
     "strictNullChecks": true,
     "preserveConstEnums": true,
     "declaration": true,
-    "sourceMap": false
+    "sourceMap": false,
+    "target": "es6"
   },
   "include": [
     "index.ts"
