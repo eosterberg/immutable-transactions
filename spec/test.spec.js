@@ -1,3 +1,15 @@
+const  {
+  unsetObj,
+  filterIn,
+  mergeIn,
+  merge,
+  filter,
+  remove,
+  set,
+  unsetIn,
+  setIn,
+} = require('../index.js')
+
 const state = {
   name: 'Name',
   age: 42,
