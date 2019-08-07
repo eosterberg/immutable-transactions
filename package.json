@@ -4,12 +4,13 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "author": "Erik Österberg",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "jasmine": "^3.4.0",
     "typescript": "^3.5.3"
   }
 }
