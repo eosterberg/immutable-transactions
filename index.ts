@@ -141,6 +141,23 @@ const merge = (obj, withObj) => {
 const mergeIn = (obj, keys, withObj) =>
   operationIn(obj, keys, merge, withObj)
 
+const without = (obj, keysToDrop: string[]) => {
+  if (keysToDrop.some(key => key in obj)) {
+    const next = {}
+    for (var key in obj) {
+      if (keysToDrop.indexOf(key) === -1) {
+        next[key] = obj[key]
+      }
+    }
+    return next
+  }
+
+  return obj
+}
+
+const withoutIn = (obj, keys, keysToDrop: string[]) =>
+  operationIn(obj, keys, without, keysToDrop)
+
 export {
   set, setIn,
   unset, unsetIn,
@@ -152,4 +169,5 @@ export {
   removeWhere, removeInWhere,
 
   merge, mergeIn,
+  without, withoutIn
 }

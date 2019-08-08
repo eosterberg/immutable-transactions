@@ -1,20 +1,15 @@
 const  {
-  set,
-  unset,
-  unsetIn,
-  setIn,
-  push,
-  pushIn,
-  unshift,
-  unshiftIn,
-  filter,
-  filterIn,
-  remove,
-  removeIn,
-  removeWhere,
-  removeInWhere,
-  merge,
-  mergeIn,
+  set, setIn,
+  unset, unsetIn,
+
+  push, pushIn,
+  unshift, unshiftIn,
+  filter, filterIn,
+  remove, removeIn,
+  removeWhere, removeInWhere,
+
+  merge, mergeIn,
+  without, withoutIn,
 } = require('../index.js')
 
 const state = {
@@ -41,7 +36,7 @@ const state = {
 
 describe('Generic functions', () => {
 
-  it('Should bypass when set:ing exsiting value', () => {
+  it('Should bypass when set:ing existing value', () => {
     const next = set(state, 'name', 'Name')
     expect(next === state)
   })
@@ -231,6 +226,26 @@ describe("object functions", () => {
     const next = mergeIn(state, ['interests', 'eating'], { fish: 2 })
     expect(next.interests.eating.fish).toBe(2)
     expect(next === state.interests.eating).toBeFalsy()
+  })
+
+  it('"without" should drop a list of keys from an object', () => {
+    const next = without(state, ['name', 'age'])
+    expect(next.name).toBeUndefined()
+    expect(next.age).toBeUndefined()
+    expect(next === state).toBeFalsy()
+  })
+
+  it('"without" should not mutate object if dropped keys was already missing', () => {
+    const next = without(state, ['foo', 'bar'])
+    expect(next === state).toBeTruthy()
+  })
+
+  it('"withoutIn" should drop a list of keys from a sub object', () => {
+    const next = withoutIn(state, ['interests'], ['running', 'music'])
+    expect(next.interests.running).toBeUndefined()
+    expect(next.interests.music).toBeUndefined()
+    expect(next === state).toBeFalsy()
+    expect(next.interests === state.interests).toBeFalsy()
   })
 
 })
