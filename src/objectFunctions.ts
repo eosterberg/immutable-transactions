@@ -1,4 +1,4 @@
-import { operationIn, set } from './genericFunctions'
+import { operationIn } from './genericFunctions'
 
 export const setObj = (obj, key, value) => {
   if (obj[key] === value) return obj
@@ -41,11 +41,9 @@ export const merge = (obj, withObj) => {
   return obj
 }
 
-export const mergeIn = (obj, keys, withObj) => {
-  return operationIn(
-    obj,
-    keys,
-    (obj, key, withObj) => set(obj, key, merge(obj[key], withObj)),
-    withObj
-  )
-}
+export const mergeIn = (obj, keys, withObj) => operationIn(
+  obj,
+  keys,
+  merge,
+  withObj
+)

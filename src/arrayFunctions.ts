@@ -1,5 +1,5 @@
 import { AnyState, AnyArray, KeyPath } from './types'
-import { operationIn, set } from './genericFunctions'
+import { operationIn } from './genericFunctions'
 
 const normalizeIndex = (arr: AnyArray, index: number) => {
   while (index < 0) index = arr.length + index
@@ -28,16 +28,14 @@ export const remove = (arr: AnyArray, value: any) => {
   return dropIndex(arr, index)
 }
 
-export const removeIn = (obj: AnyState, keys: string[], value) => {
-  return operationIn(
-    obj,
-    keys,
-    (obj, key, value) => set(obj, key, remove(obj[key], value)),
-    value
-  )
-}
+export const removeIn = (obj: AnyState, keys: KeyPath, value) => operationIn(
+  obj,
+  keys,
+  remove,
+  value
+)
 
-export const filter = (arr, predicate) => {
+export const filter = (arr: AnyArray, predicate) => {
   var differIndex = arr.findIndex((item, index) => !predicate(item, index))
   if (differIndex === -1) { return arr }
 
@@ -50,11 +48,9 @@ export const filter = (arr, predicate) => {
   return next
 }
 
-export const filterIn = (obj, keys: string[], predicate) => {
-  return operationIn(
-    obj,
-    keys,
-    (obj, key, predicate) => set(obj, key, filter(obj[key], predicate)),
-    predicate
-  )
-}
+export const filterIn = (obj: AnyState, keys: KeyPath, predicate) => operationIn(
+  obj,
+  keys,
+  filter,
+  predicate
+)

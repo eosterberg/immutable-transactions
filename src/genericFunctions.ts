@@ -1,39 +1,36 @@
+import { AnyState, AnyArray, KeyPath } from './types'
 import { setArr, unsetArr } from "./arrayFunctions"
 import { setObj, unsetObj } from "./objectFunctions"
 
 const {isArray} = Array
 
-const set = (obj, key, value) => {
-  return (
-    isArray(obj) ? setArr : setObj
-  )(obj, key, value)
-}
+const set = (obj, key, value) => (
+  isArray(obj) ? setArr : setObj
+)(obj, key, value)
 
-const unset = (obj, keyOrIndex) => {
-  return (
-    isArray(obj) ? unsetArr : unsetObj
-  )(obj, keyOrIndex)
-}
+const unset = (obj, key) => (
+  isArray(obj) ? unsetArr : unsetObj
+)(obj, key)
 
-const operationIn = (obj, keys, operation, value) => {
-  if (keys.length > 1) {
-    const key = keys[0]
-    return set(
-      obj,
-      key,
-      operationIn(obj[key], keys.slice(1), operation, value)
-    )
-  }
+const operationIn = (obj: AnyState, keys: KeyPath, operation, value) => set(
+  obj,
+  keys[0],
+  keys.length > 1 ?
+    operationIn(obj[keys[0]], keys.slice(1), operation, value) :
+    operation(obj[keys[0]], value)
+)
 
-  return operation(obj, keys[0], value)
-}
-
-const setIn = (obj, keys, value) => operationIn(obj, keys, set, value)
+const setIn = (obj, keys, value) => operationIn(
+  obj,
+  keys,
+  (obj, value) => value,
+  value
+)
 
 const unsetIn = (obj, keys, keyOrIndex) => operationIn(
   obj,
   keys,
-  (obj, key, keyOrIndex) => set(obj, key, unset(obj[key], keyOrIndex)),
+  unset,
   keyOrIndex
 )
 
