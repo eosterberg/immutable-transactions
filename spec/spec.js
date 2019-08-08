@@ -6,6 +6,8 @@ const  {
   filter,
   remove,
   removeIn,
+  removeWhere,
+  removeInWhere,
   set,
   unsetIn,
   setIn,
@@ -118,6 +120,25 @@ describe('Array functions', () => {
     const next = removeIn(state, ['interests', 'games'], 'monopoly')
     expect(next.interests.games.indexOf('monopoly')).toBe(-1)
     expect(next.interests.games.length).toBe(state.interests.games.length - 1)
+    expect(next === state).toBeFalsy()
+  })
+
+  it('Should removeWhere existing item matches', () => {
+    const next = removeWhere(state.skills, skill => skill === 'html')
+    expect(next.indexOf('html')).toBe(-1)
+    expect(next.length).toBe(state.skills.length - 1)
+    expect(next === state.skills).toBeFalsy()
+  })
+
+  it('Should bypass if trying to removeWhere a non-existent value', () => {
+    const next = removeWhere(state.skills, skill => skill === 'painting')
+    expect(next).toBe(state.skills)
+  })
+
+  it('Should removeInWhere existing item matches', () => {
+    const next = removeInWhere(state, ['skills'], skill => skill === 'html')
+    expect(next.skills.indexOf('html')).toBe(-1)
+    expect(next.skills.length).toBe(state.skills.length - 1)
     expect(next === state).toBeFalsy()
   })
 

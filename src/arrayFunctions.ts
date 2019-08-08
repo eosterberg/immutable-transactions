@@ -13,7 +13,10 @@ const normalizeIndex = (arr: AnyArray, index: number) => {
   return index
 }
 
-const dropIndex = (arr: AnyArray, index: number) => arr.slice(0, index).concat(arr.slice(index + 1))
+const dropIndex = (arr: AnyArray, index: number) =>
+  index === -1 ?
+    arr :
+    arr.slice(0, index).concat(arr.slice(index + 1))
 
 export const setArr = (arr: AnyArray, index: number, value: any) => {
   index = normalizeIndex(arr, index)
@@ -25,20 +28,27 @@ export const setArr = (arr: AnyArray, index: number, value: any) => {
   return next
 }
 
-export const unsetArr = (arr: AnyArray, index: number) => dropIndex(arr, normalizeIndex(arr, index))
+export const unsetArr = (arr: AnyArray, index: number) =>
+  dropIndex(arr, normalizeIndex(arr, index))
 
-export const remove = (arr: AnyArray, value: any) => {
-  const index = arr.indexOf(value)
-  if (index === -1) { return arr }
-
-  return dropIndex(arr, index)
-}
+export const remove = (arr: AnyArray, value: any) =>
+  dropIndex(arr, arr.indexOf(value))
 
 export const removeIn = (obj: AnyState, keys: KeyPath, value) => operationIn(
   obj,
   keys,
   remove,
   value
+)
+
+export const removeWhere = (arr: AnyArray, predicate) =>
+  dropIndex(arr, arr.findIndex(predicate))
+
+export const removeInWhere = (obj: AnyState, keys: KeyPath, predicate) => operationIn(
+  obj,
+  keys,
+  removeWhere,
+  predicate
 )
 
 export const filter = (arr: AnyArray, predicate) => {
