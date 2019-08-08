@@ -40,6 +40,20 @@ describe('Generic functions', () => {
     expect(next === state)
   })
 
+  it('"set" function should accept negative array indexes', () => {
+    const arr = [1, 2, 3]
+    const next = set(arr, -1, 42)
+    expect(next[2]).toBe(42)
+    expect(arr === next).toBeFalsy()
+  })
+
+  it('"set" function should accept negative array indexes on empty array', () => {
+    const arr = []
+    const next = set(arr, -1, 42)
+    expect(next[0]).toBe(42)
+    expect(arr === next).toBeFalsy()
+  })
+
   it('Should be able to set a nested object property', () => {
     const next = setIn(state, ['interests', 'music'], 42)
     expect(next.interests.music).toBe(42)

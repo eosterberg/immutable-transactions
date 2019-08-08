@@ -2,7 +2,13 @@ import { AnyState, AnyArray, KeyPath } from './types'
 import { operationIn } from './genericFunctions'
 
 const normalizeIndex = (arr: AnyArray, index: number) => {
-  while (index < 0) index = arr.length + index
+  if (index < 0) {
+    if (arr.length === 0) return 0
+    
+    do {
+      index = arr.length + index
+    } while (index < 0)
+  }
 
   return index
 }
