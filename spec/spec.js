@@ -1,20 +1,20 @@
 const  {
-  unsetObj,
-  filterIn,
-  mergeIn,
-  merge,
+  set,
+  unset,
+  unsetIn,
+  setIn,
   push,
   pushIn,
   unshift,
   unshiftIn,
   filter,
+  filterIn,
   remove,
   removeIn,
   removeWhere,
   removeInWhere,
-  set,
-  unsetIn,
-  setIn,
+  merge,
+  mergeIn,
 } = require('../index.js')
 
 const state = {
@@ -200,14 +200,14 @@ describe('Array functions', () => {
 describe("object functions", () => {
 
   it('Should unset a property', () => {
-    const next = unsetObj(state, 'name')
+    const next = unset(state, 'name')
     expect(next.name).toBeUndefined()
     expect(next === state).toBeFalsy()
     expect(next.interests).toBe(state.interests)
   })
 
   it('Should bypass when unsetting an undefined property', () => {
-    const next = unsetObj(state, 'foo')
+    const next = unset(state, 'foo')
     expect(next).toBe(state)
   })
 
