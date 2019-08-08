@@ -20,7 +20,7 @@ export const setArr = (arr: AnyArray, index: number, value: any) => {
 
   if (arr[index] === value) return arr
 
-  const next = ([] as AnyArray).concat(arr)
+  const next = arr.slice()
   next[index] = value
   return next
 }
