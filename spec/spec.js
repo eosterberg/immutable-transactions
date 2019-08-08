@@ -3,6 +3,10 @@ const  {
   filterIn,
   mergeIn,
   merge,
+  push,
+  pushIn,
+  unshift,
+  unshiftIn,
   filter,
   remove,
   removeIn,
@@ -96,6 +100,30 @@ describe('Generic functions', () => {
 })
 
 describe('Array functions', () => {
+
+  it('Should push item and mutate array', () => {
+    const next = push(state.skills, 'jira')
+    expect(next[3]).toBe('jira')
+    expect(next === state.skills).toBeFalsy()
+  })
+
+  it('Should pushIn', () => {
+    const next = pushIn(state, ['interests', 'games'], 'No Man\'s Sky')
+    expect(next.interests.games[2]).toBe('No Man\'s Sky')
+    expect(next.interests.games === state.interests.games).toBeFalsy()
+  })
+
+  it('Should unshift', () => {
+    const next = unshift(state.skills, 'jira')
+    expect(next[0]).toBe('jira')
+    expect(next === state.skills).toBeFalsy()
+  })
+
+  it('Should unshiftIn', () => {
+    const next = unshiftIn(state, ['interests', 'games'], 'No Man\'s Sky')
+    expect(next.interests.games[0]).toBe('No Man\'s Sky')
+    expect(next.interests.games === state.interests.games).toBeFalsy()
+  })
 
   it('Should remove existing item', () => {
     const next = remove(state.skills, 'html')

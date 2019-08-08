@@ -31,6 +31,26 @@ export const setArr = (arr: AnyArray, index: number, value: any) => {
 export const unsetArr = (arr: AnyArray, index: number) =>
   dropIndex(arr, normalizeIndex(arr, index))
 
+export const push = (arr: AnyArray, value: any) =>
+  arr.concat(value)
+
+export const pushIn = (arr: AnyArray, keys: KeyPath, value) => operationIn(
+  arr,
+  keys,
+  push,
+  value
+)
+
+export const unshift = (arr: AnyArray, value: any) =>
+  [value].concat(arr)
+
+export const unshiftIn = (arr: AnyArray, keys: KeyPath, value) => operationIn(
+  arr,
+  keys,
+  unshift,
+  value
+)
+
 export const remove = (arr: AnyArray, value: any) =>
   dropIndex(arr, arr.indexOf(value))
 
