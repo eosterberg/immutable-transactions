@@ -190,6 +190,14 @@ describe('Array functions', () => {
     expect(next === state).toBeFalsy()
   })
 
+  it('Should include index as second argument in predicate', () => {
+    const numbers = [1, 2, 3, 4]
+    const odd = filter(numbers, (_number, index) => (index % 2) === 0)
+    expect(odd[0]).toBe(1)
+    expect(odd[1]).toBe(3)
+    expect(odd === numbers).toBeFalsy()
+  })
+
 })
 
 describe("object functions", () => {

@@ -108,8 +108,8 @@ const filter = <T>(arr: T[], predicate: Predicate) => {
 
   const next = arr.slice(0, differIndex)
   while (differIndex < arr.length) {
-    var item = arr[differIndex++]
-    if (predicate(item, differIndex)) { next.push(item) }
+    var item = arr[differIndex]
+    if (predicate(item, differIndex++)) { next.push(item) }
   }
 
   return next
