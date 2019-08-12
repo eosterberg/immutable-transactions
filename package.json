@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "test": "tsc && jasmine"
+    "test": "tsc; jasmine"
   },
   "author": "Erik Österberg",
   "license": "MIT",

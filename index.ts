@@ -38,6 +38,7 @@ const set = <T>(obj: T, key: Key, value): T => {
   for (var k in obj) {
     next[k] = k === key ? value : obj[k]
   }
+
   return next
 }
 

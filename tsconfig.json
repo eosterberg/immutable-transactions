@@ -6,7 +6,7 @@
     "preserveConstEnums": true,
     "declaration": true,
     "sourceMap": false,
-    "target": "es6"
+    "target": "es2015"
   },
   "include": [
     "index.ts"
