@@ -2,7 +2,7 @@ export type Key = string | number
 export type KeyPath = Key[]
 export type Predicate = <T>(item: T, index: number) => boolean
 
-const normalizeIndex = (arr: any[], index: number) => {
+const normalizeIndex = (arr, index) => {
   if (index < 0) {
     if (arr.length === 0) return 0
     
@@ -14,37 +14,40 @@ const normalizeIndex = (arr: any[], index: number) => {
   return index
 }
 
-const dropIndex = <T>(arr: T[], index: number) =>
+const dropIndex = (arr, index) =>
   index === -1 ?
     arr :
     arr.slice(0, index).concat(arr.slice(index + 1))
 
-const setArr = (arr: any[], index: number, value) => {
-  index = normalizeIndex(arr, index)
+const {isArray} = Array
 
-  if (arr[index] === value) return arr
+const set = <T>(obj: T, key: Key, value): T => {
+  if (isArray(obj)) {
+    key = normalizeIndex(obj, key)
 
-  const next = arr.slice()
-  next[index] = value
-  return next
-}
+    if (obj[key] === value) return obj
+  
+    const next = obj.slice() as any
+    next[key] = value
+    return next
+  }
 
-const unsetArr = (arr: any[], index: number) =>
-  dropIndex(arr, normalizeIndex(arr, index))
-
-const setObj = (obj, key: Key, value) => {
   if (obj[key] === value) return obj
 
-  const next = {}
+  const next = {} as T
   for (var k in obj) {
     next[k] = k === key ? value : obj[k]
   }
   return next
 }
 
-const unsetObj = (obj, key: Key) => {
+const unset = <T>(obj: T, key: Key): T => {
+  if (isArray(obj)) {
+    return dropIndex(obj, normalizeIndex(obj, key))
+  }
+
   if (key in obj) {
-    const next = {}
+    const next = {} as T
     for (var k in obj) {
       if (key !== k) { next[k] = obj[k] }
     }
@@ -53,16 +56,6 @@ const unsetObj = (obj, key: Key) => {
 
   return obj
 }
-
-const {isArray} = Array
-
-const set = <T>(obj: T, key: Key, value): T => (
-  isArray(obj) ? setArr : setObj
-)(obj, key, value)
-
-const unset = <T>(obj: T, key: Key): T => (
-  isArray(obj) ? unsetArr : unsetObj
-)(obj, key)
 
 const operationIn = (obj, keys: KeyPath, operation, value) => set(
   obj,
