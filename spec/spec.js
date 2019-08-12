@@ -1,5 +1,6 @@
 const  {
   set, setIn,
+  change, changeIn,
   unset, unsetIn,
 
   push, pushIn,
@@ -91,6 +92,32 @@ describe('Generic functions', () => {
     expect(next.interests.eating.eggs).toBeUndefined()
     expect(next === state).toBeFalsy()
   })
+
+  it('Change function should take a modifier function with the previous value at the given key as argument, and set the returned value.', () => {
+    const next = change(state, 'name', name => name + ' Lastname')
+    expect(next.name).toBe('Name Lastname')
+    expect(next === state).toBeFalsy()
+  })
+
+  it('changeIn function should take a modifier function with the previous value at the given key path as argument, and set the returned value.', () => {
+    const next = changeIn(state, ['skills', 0], jsSkill => jsSkill + ' + ts')
+    expect(next.skills[0]).toBe('js + ts')
+    expect(next === state).toBeFalsy()
+  })
+
+  it('changeIn function should also work on objects.', () => {
+    const next = changeIn(state, ['interests', 'eating', 'meat'], foodLiking => foodLiking + 1)
+    expect(next.interests.eating.meat).toBe(10)
+    expect(next === state).toBeFalsy()
+  })
+
+  it('if changeIn modifier didnt modify, return previous object:', () => {
+    const next = changeIn(state, ['interests', 'eating', 'meat'], foodLiking => foodLiking + 0)
+    expect(next.interests.eating.meat).toBe(9)
+    expect(next === state).toBeTruthy()
+    expect(next.interests.eating === state.interests.eating).toBeTruthy()
+  })
+
 
 })
 

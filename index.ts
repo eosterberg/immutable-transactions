@@ -69,6 +69,12 @@ const operationIn = (obj, keys: KeyPath, operation, value) => set(
 const setIn = <T>(obj: T, keys: KeyPath, value): T =>
   operationIn(obj, keys, (_obj, value) => value, value)
 
+const change = <T, V>(obj: T, key: Key, modifier: (previousValue: V) => V) =>
+  set(obj, key, modifier(obj[key]))
+
+const changeIn = <T, V>(obj: T, keys: KeyPath, modifier: (previousValue: V) => V) =>
+  operationIn(obj, keys, (previousValue, modifier) => modifier(previousValue), modifier)
+
 const unsetIn = <T>(obj: T, keys: KeyPath, keyToUnset: Key): T =>
   operationIn(obj, keys, unset, keyToUnset)
 
@@ -147,6 +153,7 @@ const withoutIn = <T>(obj: T, keys: KeyPath, keysToDrop: string[]): T =>
 
 export {
   set, setIn,
+  change, changeIn,
   unset, unsetIn,
   
   push, pushIn,
