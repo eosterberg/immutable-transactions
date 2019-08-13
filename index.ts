@@ -78,17 +78,17 @@ const changeIn = <T, V>(obj: T, keys: KeyPath, modifier: (previousValue: V) => V
 const unsetIn = <T>(obj: T, keys: KeyPath, keyToUnset: Key): T =>
   operationIn(obj, keys, unset, keyToUnset)
 
-const push = <T>(arr: T[], value: T) =>
-  arr.concat(value)
+const append = <T>(arr: T[], value: T) =>
+  arr.concat([value])
 
-const pushIn = <T>(obj: T, keys: KeyPath, value): T =>
-  operationIn(obj, keys, push, value)
+const appendIn = <T>(obj: T, keys: KeyPath, value): T =>
+  operationIn(obj, keys, append, value)
 
-const unshift = <T>(arr: T[], value: T) =>
+const prepend = <T>(arr: T[], value: T) =>
   [value].concat(arr)
 
-const unshiftIn = <T>(obj: T, keys: KeyPath, value): T =>
-  operationIn(obj, keys, unshift, value)
+const prependIn = <T>(obj: T, keys: KeyPath, value): T =>
+  operationIn(obj, keys, prepend, value)
 
 const remove = <T>(arr: T[], value: T): T[] =>
   dropIndex(arr, arr.indexOf(value))
@@ -134,6 +134,24 @@ const merge = <T>(obj: T, withObj) => {
 const mergeIn = <T>(obj: T, keys: KeyPath, withObj): T =>
   operationIn(obj, keys, merge, withObj)
 
+const transmit = <T>(obj: T, toObj): T => {
+  for (var k in toObj) {
+    if (obj[k] !== toObj[k]) {
+      for (k in obj) {
+        if (!(k in toObj)) {
+          toObj[k] = obj[k]
+        }
+      }
+      return toObj
+    }
+  }
+
+  return obj
+}
+
+const transmitIn = <T>(obj: T, keys: KeyPath, toObj): T =>
+  operationIn(obj, keys, transmit, toObj)
+
 const without = <T>(obj: T, keysToDrop: string[]): T => {
   if (keysToDrop.some(key => key in obj)) {
     const next = {} as T
@@ -156,12 +174,13 @@ export {
   change, changeIn,
   unset, unsetIn,
   
-  push, pushIn,
-  unshift, unshiftIn,
+  append, appendIn,
+  prepend, prependIn,
   filter, filterIn,
   remove, removeIn,
   removeWhere, removeInWhere,
 
   merge, mergeIn,
+  transmit, transmitIn,
   without, withoutIn
 }

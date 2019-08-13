@@ -3,13 +3,14 @@ const  {
   change, changeIn,
   unset, unsetIn,
 
-  push, pushIn,
-  unshift, unshiftIn,
+  append, appendIn,
+  prepend, prependIn,
   filter, filterIn,
   remove, removeIn,
   removeWhere, removeInWhere,
 
   merge, mergeIn,
+  transmit, transmitIn,
   without, withoutIn,
 } = require('../index.js')
 
@@ -123,26 +124,26 @@ describe('Generic functions', () => {
 
 describe('Array functions', () => {
 
-  it('Should push item and mutate array', () => {
-    const next = push(state.skills, 'jira')
+  it('Should append item and mutate array', () => {
+    const next = append(state.skills, 'jira')
     expect(next[3]).toBe('jira')
     expect(next === state.skills).toBeFalsy()
   })
 
-  it('Should pushIn', () => {
-    const next = pushIn(state, ['interests', 'games'], 'No Man\'s Sky')
+  it('Should appendIn', () => {
+    const next = appendIn(state, ['interests', 'games'], 'No Man\'s Sky')
     expect(next.interests.games[2]).toBe('No Man\'s Sky')
     expect(next.interests.games === state.interests.games).toBeFalsy()
   })
 
-  it('Should unshift', () => {
-    const next = unshift(state.skills, 'jira')
+  it('Should prepend', () => {
+    const next = prepend(state.skills, 'jira')
     expect(next[0]).toBe('jira')
     expect(next === state.skills).toBeFalsy()
   })
 
-  it('Should unshiftIn', () => {
-    const next = unshiftIn(state, ['interests', 'games'], 'No Man\'s Sky')
+  it('Should prependIn', () => {
+    const next = prependIn(state, ['interests', 'games'], 'No Man\'s Sky')
     expect(next.interests.games[0]).toBe('No Man\'s Sky')
     expect(next.interests.games === state.interests.games).toBeFalsy()
   })
@@ -261,6 +262,22 @@ describe("object functions", () => {
     const next = mergeIn(state, ['interests', 'eating'], { fish: 2 })
     expect(next.interests.eating.fish).toBe(2)
     expect(next === state.interests.eating).toBeFalsy()
+  })
+
+  it('Should add prop via transmit, returned object should be 2nd argument (the obj transmitted to)', () => {
+    const next = { swimming: 3 }
+    const transmitted = transmit(state.interests, next)
+    expect(transmitted.swimming).toBe(3)
+    expect(transmitted === next).toBeTruthy()
+    expect(transmitted === state).toBeFalsy()
+  })
+
+  it('Should do deep transmit', () => {
+    const next = { dairy: 3 }
+    const transmitted = transmitIn(state, ['interests', 'eating'], next)
+    expect(transmitted.interests.eating.dairy).toBe(3)
+    expect(transmitted.interests.eating === next).toBeTruthy()
+    expect(transmitted === state).toBeFalsy()
   })
 
   it('"without" should drop a list of keys from an object', () => {
