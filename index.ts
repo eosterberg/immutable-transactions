@@ -42,22 +42,6 @@ const set = <T>(obj: T, key: Key, value): T => {
   return next
 }
 
-const unset = <T>(obj: T, key: Key): T => {
-  if (isArray(obj)) {
-    return dropIndex(obj, normalizeIndex(obj, key))
-  }
-
-  if (key in obj) {
-    const next = {} as T
-    for (var k in obj) {
-      if (key !== k) { next[k] = obj[k] }
-    }
-    return next
-  }
-
-  return obj
-}
-
 const operationIn = (obj, keys: KeyPath, operation, value) => set(
   obj,
   keys[0],
@@ -74,6 +58,10 @@ const change = <T, V>(obj: T, key: Key, modifier: (previousValue: V) => V): T =>
 
 const changeIn = <T, V>(obj: T, keys: KeyPath, modifier: (previousValue: V) => V): T =>
   operationIn(obj, keys, (previousValue, modifier) => modifier(previousValue), modifier)
+
+const unset = <T>(obj: T, key: Key): T => isArray(obj) ?
+  dropIndex(obj, normalizeIndex(obj, key)) :
+  without(obj, [key as string])
 
 const unsetIn = <T>(obj: T, keys: KeyPath, keyToUnset: Key): T =>
   operationIn(obj, keys, unset, keyToUnset)
