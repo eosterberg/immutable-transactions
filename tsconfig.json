@@ -9,7 +9,8 @@
     "target": "es2015"
   },
   "include": [
-    "index.ts"
+    "index.ts",
+    "examples/*.ts"
   ],
   "exclude": [
     "node_modules",
