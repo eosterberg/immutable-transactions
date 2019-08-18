@@ -1,5 +1,4 @@
 node_modules
-*.d.ts
 index.js
 src/*.js
 package-lock.json

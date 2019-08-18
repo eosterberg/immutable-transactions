@@ -9,3 +9,24 @@ Some features:
 - If the transaction didn't cause any changes, the previous object will be returned.
 - Make operations deep in a nested object using a list of keys, return the top object.
 - Supports negative array indexes.
+
+### Example
+
+```javascript
+import { changeIn } from 'immutable-transactions'
+
+const state = {
+  ultimate: {
+    answer: 41
+  }
+}
+
+const nextState = changeIn(state, ['ultimate', 'answer'], previousValue => previousValue + 1)
+// => {
+//   ultimate: {
+//     answer: 42
+//   }
+// }
+```
+
+See description of all methods in the [declaration file](./index.d.ts)
