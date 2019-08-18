@@ -146,16 +146,16 @@ const prependIn = <T>(object: T, keys: KeyPath, value): T =>
   operationIn(object, keys, prepend, value)
 
 /**
- * Remove the first occurence of value from an array.
+ * Remove the first occurence of @value from an array.
  * @param array The array to remove from
  * @param value The value to remove
- * @returns A new array without @value or original array if value wasn´t found
+ * @returns A new array without @value or original @array if @value wasn´t found
  */
 const remove = <T>(array: T[], value: T): T[] =>
   dropIndex(array, array.indexOf(value))
 
 /**
- * Like remove, but removes value from the array at the end of the given @keys path.
+ * Like remove, but removes @value from the array at the end of the given @keys path.
  * @param object Object or array
  * @param keys List of keys where the array to remove from resides
  * @param value The value to remove
@@ -168,7 +168,7 @@ const removeIn = <T>(object: T, keys: KeyPath, value): T =>
  * Remove the first occurence of an item where @predicate returns true.
  * @param array The array to remove from
  * @param predicate A test function to determine which item to remove
- * @returns A new array without item where predicate was met, or original array if no item was found
+ * @returns A new array without item where predicate was met, or original @array if no item was found
  */
 const removeWhere = <T>(array: T[], predicate: Predicate) =>
   dropIndex(array, array.findIndex(predicate))

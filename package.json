@@ -6,6 +6,8 @@
     "build": "tsc",
     "test": "tsc; jasmine"
   },
+  "main": "index.js",
+  "types": "index.d.ts",
   "author": "Erik Österberg",
   "license": "MIT",
   "dependencies": {},
