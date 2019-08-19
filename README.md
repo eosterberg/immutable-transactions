@@ -12,6 +12,8 @@ Some features:
 
 ### Example
 
+`$ npm install immutable-transactions --save`
+
 ```javascript
 import { changeIn } from 'immutable-transactions'
 
@@ -27,6 +29,9 @@ const nextState = changeIn(state, ['ultimate', 'answer'], previousValue => previ
 //     answer: 42
 //   }
 // }
+
+nextState === state
+// => false
 ```
 
 See description of all methods in the [declaration file](./index.d.ts)

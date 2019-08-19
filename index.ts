@@ -42,8 +42,8 @@ const set = <T>(object: T, key: Key, value): T => {
   if (object[key] === value) return object
 
   const next = {} as T
-  for (var k in object) {
-    next[k] = k === key ? value : object[k]
+  for (var objKey in object) {
+    next[objKey] = objKey === key ? value : object[objKey]
   }
 
   return next
@@ -267,7 +267,7 @@ const transmit = <T>(object: T, toObject): T => {
  * @param object Object or array
  * @param keys List of keys where the object to transmit to resides
  * @param toObject Object to transmit key path target properties into
- * @returns A new, updated @object, or original @object if @withObject properties already matched key path target.
+ * @returns A new, updated @object with @toObject at @keys path or original @object if @toObject properties already matched key path target.
  */
 const transmitIn = <T>(object: T, keys: KeyPath, toObject): T =>
   operationIn(object, keys, transmit, toObject)

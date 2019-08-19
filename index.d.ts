@@ -79,14 +79,14 @@ declare const prepend: <T>(array: T[], value: T) => T[];
  */
 declare const prependIn: <T>(object: T, keys: (string | number)[], value: any) => T;
 /**
- * Remove the first occurence of value from an array.
+ * Remove the first occurence of @value from an array.
  * @param array The array to remove from
  * @param value The value to remove
- * @returns A new array without @value or original array if value wasn´t found
+ * @returns A new array without @value or original @array if @value wasn´t found
  */
 declare const remove: <T>(array: T[], value: T) => T[];
 /**
- * Like remove, but removes value from the array at the end of the given @keys path.
+ * Like remove, but removes @value from the array at the end of the given @keys path.
  * @param object Object or array
  * @param keys List of keys where the array to remove from resides
  * @param value The value to remove
@@ -97,7 +97,7 @@ declare const removeIn: <T>(object: T, keys: (string | number)[], value: any) =>
  * Remove the first occurence of an item where @predicate returns true.
  * @param array The array to remove from
  * @param predicate A test function to determine which item to remove
- * @returns A new array without item where predicate was met, or original array if no item was found
+ * @returns A new array without item where predicate was met, or original @array if no item was found
  */
 declare const removeWhere: <T>(array: T[], predicate: Predicate) => any;
 /**
@@ -150,7 +150,7 @@ declare const transmit: <T>(object: T, toObject: any) => T;
  * @param object Object or array
  * @param keys List of keys where the object to transmit to resides
  * @param toObject Object to transmit key path target properties into
- * @returns A new, updated @object, or original @object if @withObject properties already matched key path target.
+ * @returns A new, updated @object with @toObject at @keys path or original @object if @toObject properties already matched key path target.
  */
 declare const transmitIn: <T>(object: T, keys: (string | number)[], toObject: any) => T;
 /**
