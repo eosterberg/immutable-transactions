@@ -269,7 +269,7 @@ describe("object functions", () => {
     const transmitted = transmit(state.interests, next)
     expect(transmitted.swimming).toBe(3)
     expect(transmitted === next).toBeTruthy()
-    expect(transmitted === state).toBeFalsy()
+    expect(transmitted === state.interests).toBeFalsy()
   })
 
   it('Should add props via transmit, props from previous object should follow along', () => {
