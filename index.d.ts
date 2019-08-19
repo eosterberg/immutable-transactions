@@ -140,6 +140,12 @@ declare const merge: <T>(object: T, withObject: any) => T;
 declare const mergeIn: <T>(object: T, keys: (string | number)[], withObject: any) => T;
 /**
  * Like merge, but returns an updated @toObject if changes occured. By reusing @toObject a small performance boost is possible from not having to allocate an extra object and copying properties.
+ * @example
+ * const prev = {foo: 'foo'}
+ * const next = {bar: 'bar'}
+ * const transmitted = transmit(prev, next)
+ * next // => {foo: 'foo', bar: 'bar'}
+ * next === transmitted // => true
  * @param object Object to transmit from
  * @param toObject Object to transmit @object properties into
  * @returns @toObject with properties from @object, or original @object if properties already matched.
