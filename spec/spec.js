@@ -272,6 +272,19 @@ describe("object functions", () => {
     expect(transmitted === state).toBeFalsy()
   })
 
+  it('Should add props via transmit, props from previous object should follow along', () => {
+    const next = { swimming: 3, running: 7 }
+    const transmitted = transmit(state.interests, next)
+    expect(transmitted.swimming).toBe(3)
+    expect(transmitted.running).toBe(7)
+    expect(transmitted.music).toBe(9)
+  })
+
+  it('Transmit should bypass when trying to transmit existing values (just like merge)', () => {
+    const next = transmit(state.interests, { running: 7 })
+    expect(next).toBe(state.interests)
+  })
+
   it('Should do deep transmit', () => {
     const next = { dairy: 3 }
     const transmitted = transmitIn(state, ['interests', 'eating'], next)
