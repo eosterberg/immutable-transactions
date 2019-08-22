@@ -1,10 +1,11 @@
 {
   "name": "immutable-transactions",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "immutable-transactions is a JavaScript library simplifying transactions in application state where you want to enforce strict immutability while still using native JavaScript objects and arrays.",
   "scripts": {
     "build": "tsc",
-    "test": "tsc; jasmine"
+    "test": "tsc; jasmine",
+    "prepublish": "tsc"
   },
   "main": "index.js",
   "types": "index.d.ts",
@@ -14,5 +15,10 @@
   "devDependencies": {
     "jasmine": "^3.4.0",
     "typescript": "^3.5.3"
-  }
+  },  
+  "homepage": "https://github.com/eosterberg/immutable-transactions",
+  "bugs": {
+    "url": "https://github.com/eosterberg/immutable-transactions/issues"
+  },
+  "keywords": ["immutability", "immutable", "state", "state machine", "reducer", "redux", "functional", "rambda"]
 }
